@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-# programa de comisiones
-# hecho por kevin, no tocar, ya funciona
+# Calcula e imprime el reporte mensual de comisiones de La Comercial.
  
 anchoReporte = 44
 limitComisionAlta = 30000
@@ -19,31 +18,37 @@ vendedores = [
     ("Lucía Morales", 33400.00),
 ]
 
+#Calcula la comisión y el bono correspondientes a un vendedor.
 def calcularTotalVendedor(ventasMensuales):
-    # si vendio mas de 30000
+    
+    # Las ventas superiores al límite reciben la tasa de comisión alta.
     if ventasMensuales > limitComisionAlta:
-        # calcula la comision del 8%
         tasaComision = tasaComisionAlta
+    
+    # Las ventas iguales o inferiores al límite reciben la tasa base.
     else:
-        # calcula la comision del 5%
         tasaComision = tasaComisionBase
 
+    # Calcula la comisión y el bono, redondeando a los decimales de moneda.
     comision = ventasMensuales * tasaComision
     comision = round(comision, decimalesMoneda)
 
-    # el bono es de 300
+    # Si las ventas superan el límite de bono, se otorga el bono.
     if ventasMensuales > limitBono:
         bono = montoBono
+        
+    # Si las ventas no superan el límite de bono, no se otorga bono.
     else:
         bono = 0
 
     return round(comision + bono, decimalesMoneda)
 
+# Devuelve las comisiones individuales y el total mensual
 def calcular_comisiones():
     resultados = []
     totalPagar = 0
-
-    # recorre la lista
+    
+    # Se recorre la lista de vendedores y se calcula la comisión y el bono de cada uno.
     for nombreVendedor, ventasMensuales in vendedores:
         totalVendedor = calcularTotalVendedor(ventasMensuales)
         resultados.append((nombreVendedor, totalVendedor))
@@ -51,12 +56,13 @@ def calcular_comisiones():
 
     return resultados, totalPagar
 
-
+# Imprime el reporte conservando su formato original
 def imprimir_reporte(resultados, totalPagar):
     print("=" * anchoReporte)
     print("    COMISIONES DEL MES - LA COMERCIAL")
     print("=" * anchoReporte)
 
+    # Se recorre la lista de resultados y se imprime el nombre del vendedor y su comisión total.
     for nombreVendedor, totalVendedor in resultados:
         print(nombreVendedor + ": Q " + str(totalVendedor))
 
